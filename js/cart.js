@@ -11,6 +11,7 @@
 function createCartModel(config) {
 	var model = createListModel(config);
 
+    // returns the total price of the elements in the cart
 	model.getTotalPrice = function() {
     	var idx;
     	var totalPrice = 0;
@@ -21,6 +22,7 @@ function createCartModel(config) {
     	return totalPrice.toFixed(2);
 	}; //getTotalPrice()
 
+    // returns a JSON representation of the cart items
 	model.toJSON = function() {
 		return JSON.stringify(this.items);
 	};

@@ -10,6 +10,7 @@ $(function(){
 
 	var cartModel = createCartModel();
 
+	// Creates our cart model
 	var cartView = createCartView({
    		model: cartModel,
     	template: $('.cart-item-template'),
@@ -17,10 +18,12 @@ $(function(){
     	totalPrice: $('.total-price')
 	});
 
+	// Creates the movies model
 	var moviesModel = createMoviesModel({
     	url: 'https://courses.washington.edu/info343/ajax/movies/'
 	});
 
+	// Creates the view
 	var moviesView = createMoviesView({
     	model: moviesModel,
     	template: $('.movie-template'),
@@ -47,8 +50,24 @@ $(function(){
 	    });
 	}); //addToCart event
 
-	$('.place-order').click(function(){
-		console.log(cartModel.toJSON());
-	})
+	// Posts the cart to a webserver
+		$('.place-order').click(function() {
+			$.ajax({
+			    url: 'https://courses.washington.edu/info343/ajax/movies/orders/',
+			    type: 'POST',
+			    data: cartModel.toJSON(),
+			    contentType: 'application/json',
+			    success: function(responseData) {
+			        //code to run after successful post
+			        alert(responseData.message);
+			    },
+			    error: function(jqXHR, status, errorThrown) {
+			        //error with post--alert user
+			        alert(errorThrown || status);
+			    }
+			}); //ajax()
+			cartModel.setItems([]);
+		})
+
 }); //doc ready()
 
